@@ -1,1 +1,2 @@
-# Path_Finding_Visualization
+# Path_Finding_Visualization using openGL
+
