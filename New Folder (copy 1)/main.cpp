@@ -7,13 +7,10 @@ int X = 600;
 int Y = 450;
 int fontx, fonty;
 int start = 0;
-button b1((char *)"Start", 475, 400, 100, 30);
-button b2((char *)"Reset", 475, 350, 100, 30);
-button b3((char *)"Random Wall", 475, 300, 100, 30);
-button b4((char *)"Diagonal", 475, 250, 100, 30);
+button b1((char *)"Start", 480, 400, 100, 30);
+button b2((char *)"Reset", 480, 350, 100, 30);
 int cs = 0;
 int ce = 0;
-int cw = 0;
 
 void init()
 {
@@ -43,8 +40,6 @@ void display()
     Font(GLUT_BITMAP_TIMES_ROMAN_24, (char *)"A* Path Finding Algorithm", fontx, fonty);
     b1.draw();
     b2.draw();
-    b3.draw();
-    b4.draw();
     Grid();
     if (start == 1)
     {
@@ -72,22 +67,11 @@ void MouseButton(int button, int state, int x, int y)
         {
             b2.togglestate();
         }
-        if (b3.insidebutton(x, y))
-        {
-            b3.togglestate();
-        }
-        if (b4.insidebutton(x, y))
-        {
-            b4.togglestate();
-        }
         if(cs == 1){
-            selGS(x,y);
+        selGS(x,y);
         }
         if(ce == 1){
             selGE(x,y);
-        }
-        if(cw == 1){
-            selGW(x,y);
         }
     }
     if (button == GLUT_LEFT_BUTTON && state == GLUT_UP)
@@ -104,17 +88,6 @@ void MouseButton(int button, int state, int x, int y)
             resetG();
             start = 0;
         }
-        if (b3.insidebutton(x, y))
-        {
-            b3.togglestate();
-            randWall();
-        }
-        if (b4.insidebutton(x, y))
-        {
-            b4.togglestate();
-            selGD();
-            start = 0;
-        }
     }
     glutPostRedisplay();
 }
@@ -127,9 +100,6 @@ void keyPress(unsigned char key, int xmouse, int ymouse)
     if(key == 'e'){
         ce = 1;
     }
-    if(key == 'w'){
-        cw = 1;
-    }
     glutPostRedisplay(); //request display() call ASAP
 }
 
@@ -141,9 +111,6 @@ void keyUp(unsigned char key, int xmouse, int ymouse)
     }
     if(key == 'e'){
         ce = 0;
-    }
-    if(key == 'w'){
-        cw = 0;
     }
     glutPostRedisplay(); //request display() call ASAP
 }

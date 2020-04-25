@@ -21,10 +21,10 @@ void button::draw()
     glVertex2i(X + W, Y + H);
     glVertex2i(X + W, Y);
     glEnd();
-    int fontx = X + (W- glutBitmapLength(GLUT_BITMAP_8_BY_13,(const unsigned char *)text)) / 2 ;
+    int fontx = X + (W- glutBitmapLength(GLUT_BITMAP_9_BY_15,(const unsigned char *)text)) / 2 ;
 	int fonty = Y + (H+10)/2;
     glColor3f(1,1,1);
-	Font(GLUT_BITMAP_8_BY_13,text,fontx,fonty);
+	Font(GLUT_BITMAP_9_BY_15,text,fontx,fonty);
 }
 
 void button::togglestate()

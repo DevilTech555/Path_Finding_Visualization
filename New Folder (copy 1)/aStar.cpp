@@ -10,7 +10,6 @@
 using namespace std;
 
 int dela = 10000;
-int d = 0;
 
 struct node
 {
@@ -24,7 +23,6 @@ struct node
     }
     vector<node *> neghbor;
     node *perv;
-    bool wall = false;
 };
 
 float wX = (float)430 / cols, wY = (float)380 / rows;
@@ -41,23 +39,6 @@ void drawPathConstant();
 
 bool set1 = true;
 bool set = true;
-bool done = false;
-
-void randWall()
-{
-    for (int i = 0; i < cols; i++)
-    {
-        for (int j = 0; j < rows; j++)
-        {
-            int ri = rand() % cols;
-            int rj = rand() % rows;
-            if (i == ri)
-            {
-                nodes[i][j].wall = true;
-            }
-        }
-    }
-}
 
 void first_fun()
 {
@@ -70,7 +51,6 @@ void first_fun()
             nodes[i][j].x = 10 + (i * wX);
             nodes[i][j].y = 60 + (j * wY);
             nodes[i][j].perv = nullptr;
-            nodes[i][j].wall = false;
         }
     }
     for (int i = 0; i < cols; i++)
@@ -85,28 +65,17 @@ void first_fun()
                 nodes[i][j].neghbor.push_back(&nodes[i][j + 1]);
             if (j > 0)
                 nodes[i][j].neghbor.push_back(&nodes[i][j - 1]);
-            if (d == 1)
-            {
-                if (i > 0 && j > 0)
-                    nodes[i][j].neghbor.push_back(&nodes[i - 1][j - 1]);
-                if (i < cols - 1 && j > 0)
-                    nodes[i][j].neghbor.push_back(&nodes[i + 1][j - 1]);
-                if (i > 0 && j < rows - 1)
-                    nodes[i][j].neghbor.push_back(&nodes[i - 1][j + 1]);
-                if (i < cols - 1 && j < rows - 1)
-                    nodes[i][j].neghbor.push_back(&nodes[i + 1][j + 1]);
-            }
         }
     }
 }
 
 void a_st()
 {
+    int index = 0;
     while (set)
     {
         if (openset.size() > 0)
         {
-            int index = 0;
             for (int i = 0; i < (int)openset.size(); i++)
             {
                 if (openset[i]->f < openset[index]->f)
@@ -118,6 +87,7 @@ void a_st()
             node *current = openset[index];
             if (current->i == endnode->i && current->j == endnode->j)
             {
+                path.push_back(current);
                 node *temp = current;
                 while (temp->perv != nullptr)
                 {
@@ -139,7 +109,7 @@ void a_st()
             {
 
                 bool foundC = (find(closeset.begin(), closeset.end(), n) != closeset.end());
-                if (!foundC && !n->wall)
+                if (!foundC)
                 {
                     int tempG = current->g + 1;
                     bool foundO = (find(openset.begin(), openset.end(), n) != openset.end());
@@ -168,13 +138,8 @@ void a_st()
             glutSwapBuffers();
             usleep(dela);
         }
-        else
-        {
-            set = false;
-            cout << "no path" << endl;
-            break;
-        }
     }
+    drawPathConstant();
 }
 
 void drawGrid()
@@ -204,19 +169,15 @@ void drawGrid()
 
             if (o == 0 && c == 0)
             {
-                glColor3f(0.8, 0.8, 0.8);
+                glColor3f(1, 1, 1);
             }
             if (startnode != nullptr && startnode->i == i && startnode->j == j)
             {
-                glColor3f(1, 0, 0.9);
+                glColor3f(0, 0, 1);
             }
             if (endnode != nullptr && endnode->i == i && endnode->j == j)
             {
-                glColor3f(0, 0, 0.9);
-            }
-            if (nodes[i][j].wall)
-            {
-                glColor3f(0, 0, 0);
+                glColor3f(1, 0, 1);
             }
             glBegin(GL_POLYGON);
             glVertex2f(x + i * wX, y + j * wY);
@@ -242,18 +203,14 @@ void drawPath()
     {
         for (int j = 0; j < rows; j++)
         {
-            glColor3f(0.8, 0.8, 0.8);
+            glColor3f(1, 1, 1);
             if (startnode != nullptr && startnode->i == i && startnode->j == j)
             {
-                glColor3f(1, 0, 0.9);
+                glColor3f(0, 0, 1);
             }
             if (endnode != nullptr && endnode->i == i && endnode->j == j)
             {
-                glColor3f(0, 0, 0.9);
-            }
-            if (nodes[i][j].wall)
-            {
-                glColor3f(0, 0, 0);
+                glColor3f(1, 0, 1);
             }
             glBegin(GL_POLYGON);
             glVertex2f(x + i * wX, y + j * wY);
@@ -278,15 +235,11 @@ void drawPath()
         glColor3f(1, 1, 0);
         if (startnode != nullptr && startnode->i == i && startnode->j == j)
         {
-            glColor3f(1, 0, 0.9);
+            glColor3f(0, 0, 1);
         }
         if (endnode != nullptr && endnode->i == i && endnode->j == j)
         {
-            glColor3f(0, 0, 0.9);
-        }
-        if (nodes[i][j].wall)
-        {
-            glColor3f(0, 0, 0);
+            glColor3f(1, 0, 1);
         }
         glBegin(GL_POLYGON);
         glVertex2f(x + i * wX, y + j * wY);
@@ -313,18 +266,14 @@ void drawPathConstant()
     {
         for (int j = 0; j < rows; j++)
         {
-            glColor3f(0.8, 0.8, 0.8);
+            glColor3f(1, 1, 1);
             if (startnode != nullptr && startnode->i == i && startnode->j == j)
             {
-                glColor3f(1, 0, 0.9);
+                glColor3f(0, 0, 1);
             }
             if (endnode != nullptr && endnode->i == i && endnode->j == j)
             {
-                glColor3f(0, 0, 0.9);
-            }
-            if (nodes[i][j].wall)
-            {
-                glColor3f(0, 0, 0);
+                glColor3f(1, 0, 1);
             }
             glBegin(GL_POLYGON);
             glVertex2f(x + i * wX, y + j * wY);
@@ -349,15 +298,11 @@ void drawPathConstant()
         glColor3f(1, 1, 0);
         if (startnode != nullptr && startnode->i == i && startnode->j == j)
         {
-            glColor3f(1, 0, 0.9);
+            glColor3f(0, 0, 1);
         }
         if (endnode != nullptr && endnode->i == i && endnode->j == j)
         {
-            glColor3f(0, 0, 0.9);
-        }
-        if (nodes[i][j].wall)
-        {
-            glColor3f(0, 0, 0);
+            glColor3f(1, 0, 1);
         }
         glBegin(GL_POLYGON);
         glVertex2f(x + i * wX, y + j * wY);
@@ -384,18 +329,14 @@ void Grid()
     {
         for (int j = 0; j < rows; j++)
         {
-            glColor3f(0.8, 0.8, 0.8);
+            glColor3f(1, 1, 1);
             if (startnode != nullptr && startnode->i == i && startnode->j == j)
             {
-                glColor3f(1, 0, 0.9);
+                glColor3f(0, 0, 1);
             }
             if (endnode != nullptr && endnode->i == i && endnode->j == j)
             {
-                glColor3f(0, 0, 0.9);
-            }
-            if (nodes[i][j].wall)
-            {
-                glColor3f(0, 0, 0);
+                glColor3f(1, 0, 1);
             }
             glBegin(GL_POLYGON);
             glVertex2f(x + i * wX, y + j * wY);
@@ -422,9 +363,9 @@ void selGS(int x, int y)
         {
             if (x > nodes[i][j].x && x < nodes[i][j].x + wX && y > nodes[i][j].y && y < nodes[i][j].y + wY)
             {
+                std::cout << i << " , " << j << std::endl;
                 startnode = &nodes[i][j];
-                if (!openset.empty())
-                {
+                if(!openset.empty()){
                     openset.pop_back();
                 }
                 openset.push_back(startnode);
@@ -441,42 +382,11 @@ void selGE(int x, int y)
         {
             if (x > nodes[i][j].x && x < nodes[i][j].x + wX && y > nodes[i][j].y && y < nodes[i][j].y + wY)
             {
+                std::cout << i << " , " << j << std::endl;
                 endnode = &nodes[i][j];
             }
         }
     }
-}
-
-void selGW(int x, int y)
-{
-    for (int i = 0; i < cols; i++)
-    {
-        for (int j = 0; j < rows; j++)
-        {
-            if (x > nodes[i][j].x && x < nodes[i][j].x + wX && y > nodes[i][j].y && y < nodes[i][j].y + wY)
-            {
-                nodes[i][j].wall = true;
-            }
-        }
-    }
-}
-
-void clearNeb()
-{
-    for (int i = 0; i < cols; i++)
-    {
-        for (int j = 0; j < rows; j++)
-        {
-            nodes[i][j].neghbor.clear();
-        }
-    }
-}
-
-void selGD()
-{
-    d = (d == 1) ? 0 : 1;
-    clearNeb();
-    resetG();
 }
 
 void resetG()
@@ -487,6 +397,5 @@ void resetG()
     openset.clear();
     closeset.clear();
     path.clear();
-    clearNeb();
     first_fun();
 }
