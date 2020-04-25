@@ -28,7 +28,7 @@ void display()
     glVertex2f(0,50);
     glVertex2i(450,50);
     glEnd();
-    drawGrid();
+    aStar();
     glutSwapBuffers();
 }
 
