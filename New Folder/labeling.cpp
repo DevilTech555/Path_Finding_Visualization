@@ -109,8 +109,8 @@ void banner(){
     glBegin(GL_QUADS);
     glVertex2i(0, 51);
     glVertex2i(0, 448);
-    glVertex2i(449, 448);
-    glVertex2i(449, 51);
+    glVertex2i(450, 448);
+    glVertex2i(450, 51);
     glEnd();
 }
 
