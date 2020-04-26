@@ -6,11 +6,18 @@
 #include <algorithm>
 #include <unistd.h>
 #include "aStar.h"
+#include "labeling.h"
 
 using namespace std;
 
 int dela = 10000;
+
 int d = 0;
+
+extern label l1;
+extern label l2;
+extern label l3;
+extern label l4;
 
 struct node
 {
@@ -61,6 +68,10 @@ void randWall()
 
 void first_fun()
 {
+    if(d == 1){
+    l2.state = 1;}else{
+        l2.state = 0;
+    }
     for (int i = 0; i < cols; i++)
     {
         for (int j = 0; j < rows; j++)
@@ -126,7 +137,10 @@ void a_st()
                     path.push_back(temp);
                 }
                 set = false;
-                cout << "done" << endl;
+                l1.state = l4.state = 1;
+                Grid();
+                glutSwapBuffers();
+                usleep(dela);
                 drawPath();
                 break;
             }
@@ -171,10 +185,12 @@ void a_st()
         else
         {
             set = false;
-            cout << "no path" << endl;
+            l3.state = l1.state =1;
+            usleep(dela);
             break;
         }
     }
+    drawPathConstant();
 }
 
 void drawGrid()
@@ -189,7 +205,7 @@ void drawGrid()
             {
                 if (op->i == i && op->j == j)
                 {
-                    glColor3f(0, 1, 0);
+                    glColor3f(144.0f/255.0f,238.0f/255.0f,44.0f/255.0f);
                     o = 1;
                 }
             }
@@ -197,14 +213,14 @@ void drawGrid()
             {
                 if (cp->i == i && cp->j == j)
                 {
-                    glColor3f(1, 0, 0);
+                    glColor3f(255.0f/255.0f,70.0f/255.0f,70.0f/255.0f);
                     c = 1;
                 }
             }
 
             if (o == 0 && c == 0)
             {
-                glColor3f(0.8, 0.8, 0.8);
+                glColor3f(1,1,1);
             }
             if (startnode != nullptr && startnode->i == i && startnode->j == j)
             {
@@ -216,7 +232,7 @@ void drawGrid()
             }
             if (nodes[i][j].wall)
             {
-                glColor3f(0, 0, 0);
+                glColor3f(0,0,0);
             }
             glBegin(GL_POLYGON);
             glVertex2f(x + i * wX, y + j * wY);
@@ -224,7 +240,7 @@ void drawGrid()
             glVertex2f(x + wX + i * wX, y + wY + j * wY);
             glVertex2f(x + i * wX, y + wY + j * wY);
             glEnd();
-            glColor3f(0, 0, 0);
+            glColor3f(0,0,0);
             glBegin(GL_LINE_LOOP);
             glVertex2f(x + i * wX, y + j * wY);
             glVertex2f(x + wX + i * wX, y + j * wY);
@@ -242,7 +258,7 @@ void drawPath()
     {
         for (int j = 0; j < rows; j++)
         {
-            glColor3f(0.8, 0.8, 0.8);
+            glColor3f(1,1,1);
             if (startnode != nullptr && startnode->i == i && startnode->j == j)
             {
                 glColor3f(1, 0, 0.9);
@@ -253,7 +269,7 @@ void drawPath()
             }
             if (nodes[i][j].wall)
             {
-                glColor3f(0, 0, 0);
+                glColor3f(0,0,0);
             }
             glBegin(GL_POLYGON);
             glVertex2f(x + i * wX, y + j * wY);
@@ -261,7 +277,7 @@ void drawPath()
             glVertex2f(x + wX + i * wX, y + wY + j * wY);
             glVertex2f(x + i * wX, y + wY + j * wY);
             glEnd();
-            glColor3f(0, 0, 0);
+            glColor3f(0,0,0);
             glBegin(GL_LINE_LOOP);
             glVertex2f(x + i * wX, y + j * wY);
             glVertex2f(x + wX + i * wX, y + j * wY);
@@ -286,7 +302,7 @@ void drawPath()
         }
         if (nodes[i][j].wall)
         {
-            glColor3f(0, 0, 0);
+            glColor3f(0,0,0);
         }
         glBegin(GL_POLYGON);
         glVertex2f(x + i * wX, y + j * wY);
@@ -294,7 +310,7 @@ void drawPath()
         glVertex2f(x + wX + i * wX, y + wY + j * wY);
         glVertex2f(x + i * wX, y + wY + j * wY);
         glEnd();
-        glColor3f(0, 0, 0);
+        glColor3f(0,0,0);
         glBegin(GL_LINE_LOOP);
         glVertex2f(x + i * wX, y + j * wY);
         glVertex2f(x + wX + i * wX, y + j * wY);
@@ -313,7 +329,7 @@ void drawPathConstant()
     {
         for (int j = 0; j < rows; j++)
         {
-            glColor3f(0.8, 0.8, 0.8);
+            glColor3f(1,1,1);
             if (startnode != nullptr && startnode->i == i && startnode->j == j)
             {
                 glColor3f(1, 0, 0.9);
@@ -324,7 +340,7 @@ void drawPathConstant()
             }
             if (nodes[i][j].wall)
             {
-                glColor3f(0, 0, 0);
+                glColor3f(0,0,0);
             }
             glBegin(GL_POLYGON);
             glVertex2f(x + i * wX, y + j * wY);
@@ -332,7 +348,7 @@ void drawPathConstant()
             glVertex2f(x + wX + i * wX, y + wY + j * wY);
             glVertex2f(x + i * wX, y + wY + j * wY);
             glEnd();
-            glColor3f(0, 0, 0);
+            glColor3f(0,0,0);
             glBegin(GL_LINE_LOOP);
             glVertex2f(x + i * wX, y + j * wY);
             glVertex2f(x + wX + i * wX, y + j * wY);
@@ -357,7 +373,7 @@ void drawPathConstant()
         }
         if (nodes[i][j].wall)
         {
-            glColor3f(0, 0, 0);
+            glColor3f(0,0,0);
         }
         glBegin(GL_POLYGON);
         glVertex2f(x + i * wX, y + j * wY);
@@ -365,7 +381,7 @@ void drawPathConstant()
         glVertex2f(x + wX + i * wX, y + wY + j * wY);
         glVertex2f(x + i * wX, y + wY + j * wY);
         glEnd();
-        glColor3f(0, 0, 0);
+        glColor3f(0,0,0);
         glBegin(GL_LINE_LOOP);
         glVertex2f(x + i * wX, y + j * wY);
         glVertex2f(x + wX + i * wX, y + j * wY);
@@ -384,7 +400,7 @@ void Grid()
     {
         for (int j = 0; j < rows; j++)
         {
-            glColor3f(0.8, 0.8, 0.8);
+            glColor3f(1,1,1);
             if (startnode != nullptr && startnode->i == i && startnode->j == j)
             {
                 glColor3f(1, 0, 0.9);
@@ -395,7 +411,7 @@ void Grid()
             }
             if (nodes[i][j].wall)
             {
-                glColor3f(0, 0, 0);
+                glColor3f(0,0,0);
             }
             glBegin(GL_POLYGON);
             glVertex2f(x + i * wX, y + j * wY);
@@ -403,7 +419,7 @@ void Grid()
             glVertex2f(x + wX + i * wX, y + wY + j * wY);
             glVertex2f(x + i * wX, y + wY + j * wY);
             glEnd();
-            glColor3f(0, 0, 0);
+            glColor3f(0,0,0);
             glBegin(GL_LINE_LOOP);
             glVertex2f(x + i * wX, y + j * wY);
             glVertex2f(x + wX + i * wX, y + j * wY);
@@ -420,7 +436,7 @@ void selGS(int x, int y)
     {
         for (int j = 0; j < rows; j++)
         {
-            if (x > nodes[i][j].x && x < nodes[i][j].x + wX && y > nodes[i][j].y && y < nodes[i][j].y + wY)
+            if (nodes[i][j].wall == false && x > nodes[i][j].x && x < nodes[i][j].x + wX && y > nodes[i][j].y && y < nodes[i][j].y + wY)
             {
                 startnode = &nodes[i][j];
                 if (!openset.empty())
@@ -439,7 +455,7 @@ void selGE(int x, int y)
     {
         for (int j = 0; j < rows; j++)
         {
-            if (x > nodes[i][j].x && x < nodes[i][j].x + wX && y > nodes[i][j].y && y < nodes[i][j].y + wY)
+            if (nodes[i][j].wall == false && x > nodes[i][j].x && x < nodes[i][j].x + wX && y > nodes[i][j].y && y < nodes[i][j].y + wY)
             {
                 endnode = &nodes[i][j];
             }
@@ -455,7 +471,7 @@ void selGW(int x, int y)
         {
             if (x > nodes[i][j].x && x < nodes[i][j].x + wX && y > nodes[i][j].y && y < nodes[i][j].y + wY)
             {
-                nodes[i][j].wall = true;
+                nodes[i][j].wall = (nodes[i][j].wall == true) ? false : true;
             }
         }
     }
@@ -475,7 +491,6 @@ void clearNeb()
 void selGD()
 {
     d = (d == 1) ? 0 : 1;
-    clearNeb();
     resetG();
 }
 

@@ -2,49 +2,49 @@
 #include <GL/glut.h>
 #include "button.h"
 #include "aStar.h"
+#include "labeling.h"
 
 int X = 600;
-int Y = 450;
-int fontx, fonty;
+int Y = 500;
 int start = 0;
-button b1((char *)"Start", 475, 400, 100, 30);
-button b2((char *)"Reset", 475, 350, 100, 30);
-button b3((char *)"Random Wall", 475, 300, 100, 30);
-button b4((char *)"Diagonal", 475, 250, 100, 30);
+button b1((char *)"Start", 475, 407, 100, 30);
+button b2((char *)"Reset", 475, 367, 100, 30);
+button b3((char *)"Random Wall", 475, 327, 100, 30);
+button b4((char *)"Diagonal", 475, 287, 100, 30);
+
+label l1((char*)"Reset",340,460,100,30,1);
+label l2((char*)"Diagonal",230,460,100,30,3);
+label l3((char*)"NO Path",120,460,100,30,1);
+label l4((char*)"FOUND",10,460,100,30,2);
+
 int cs = 0;
 int ce = 0;
 int cw = 0;
 
 void init()
 {
-    glClearColor(0.1, 0.0, 0.0, 0.0);
+    glClearColor(8.0/255.0f,0.0/255.0f,15.0/255.0f, 0.0);
     first_fun();
 }
 
 void display()
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    glEnable(GL_MULTISAMPLE_ARB);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     glOrtho(0, X, Y, 0, -1, 1);
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
-    glColor3f(1, 0, 0);
-    glBegin(GL_LINES);
-    glVertex2i(450, 0);
-    glVertex2i(450, 450);
-    glVertex2f(0, 50);
-    glVertex2i(450, 50);
-    glEnd();
-    glColor3f(1, 1, 1);
-    fontx = 5 + (450 - glutBitmapLength(GLUT_BITMAP_TIMES_ROMAN_24, (const unsigned char *)"A* Path Finding Algorithm")) / 2;
-    fonty = 5 + (50 + 10) / 2;
-    Font(GLUT_BITMAP_TIMES_ROMAN_24, (char *)"A* Path Finding Algorithm", fontx, fonty);
+    banner();
+    info();
     b1.draw();
     b2.draw();
     b3.draw();
     b4.draw();
+    l1.draw();
+    l2.draw();
+    l3.draw();
+    l4.draw();
     Grid();
     if (start == 1)
     {
@@ -97,12 +97,16 @@ void MouseButton(int button, int state, int x, int y)
             b1.togglestate();
             if (start != 1)
                 start = 1;
+
         }
         if (b2.insidebutton(x, y))
         {
             b2.togglestate();
             resetG();
             start = 0;
+            l1.state = 0;
+            l3.state = 0;
+            l4.state = 0;
         }
         if (b3.insidebutton(x, y))
         {
@@ -114,6 +118,9 @@ void MouseButton(int button, int state, int x, int y)
             b4.togglestate();
             selGD();
             start = 0;
+            l1.state = 0;
+            l3.state = 0;
+            l4.state = 0;
         }
     }
     glutPostRedisplay();
@@ -151,7 +158,7 @@ void keyUp(unsigned char key, int xmouse, int ymouse)
 int main(int argc, char **argv)
 {
     glutInit(&argc, argv);
-    glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_MULTISAMPLE);
+    glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE );
     glutInitWindowPosition(0, 0);
     glutInitWindowSize(X, Y);
     glutCreateWindow("Path Finding Algorithms Visualization");
