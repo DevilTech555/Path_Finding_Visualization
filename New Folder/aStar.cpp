@@ -10,7 +10,7 @@
 
 using namespace std;
 
-int dela = 10000;
+int dela = 18000;
 
 int d = 0;
 
@@ -141,6 +141,9 @@ void a_st()
                 Grid();
                 glutSwapBuffers();
                 usleep(dela);
+                Grid();
+                glutSwapBuffers();
+                usleep(dela);
                 drawPath();
                 break;
             }
@@ -155,6 +158,7 @@ void a_st()
                 bool foundC = (find(closeset.begin(), closeset.end(), n) != closeset.end());
                 if (!foundC && !n->wall)
                 {
+                    bool newpath = false;
                     int tempG = current->g + 1;
                     bool foundO = (find(openset.begin(), openset.end(), n) != openset.end());
                     if (foundO)
@@ -162,20 +166,23 @@ void a_st()
                         if (tempG < n->g)
                         {
                             n->g = tempG;
+                            newpath = true;
                         }
                     }
                     else
                     {
                         n->g = tempG;
+                        newpath =true;
                         openset.push_back(n);
                     }
-                    // for diagonal
-                    // n->h = (int)sqrt((n->i-endnode->i)*2 + (n->j-endnode->j)*2);
-                    // for non diagonal
+                    if(newpath){
                     n->h = (abs(n->i - endnode->i) + abs(n->j - endnode->j));
+                    // n->h = max(abs(n->i - endnode->i) , abs(n->j - endnode->j));
+                    // n->h = sqrt (abs(n->i - endnode->i) + abs(n->j - endnode->j));
                     n->f = n->g + n->h;
                     n->perv = current;
                     // cout << n->f << " " << n->g << endl;
+                    }
                 }
             }
             drawGrid();

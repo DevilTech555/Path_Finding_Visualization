@@ -1,8 +1,8 @@
 #ifndef ASTAR_H_INCLUDE
 #define ASTAR_H_INCLUDE
 
-#define cols 25
-#define rows 25
+#define cols 40
+#define rows 40
 
 void first_fun();
 void a_st();

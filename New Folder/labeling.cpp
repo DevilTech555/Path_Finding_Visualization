@@ -104,18 +104,25 @@ void banner(){
     glVertex2i(451, 49 + 225);
     glVertex2i(451 + 150, 49 + 225);
     glVertex2i(451 + 150, 51);
+    glColor3f(139.0f/255.f,90.0f/255.f,43.0f/255.f);
+    glEnd();
+    glBegin(GL_QUADS);
+    glVertex2i(0, 51);
+    glVertex2i(0, 448);
+    glVertex2i(449, 448);
+    glVertex2i(449, 51);
     glEnd();
 }
 
 void info(){
     glColor3f(0,0,0);
-    f(GLUT_BITMAP_9_BY_15, (char *)"white -> Nodes", 460, 70);
-    f(GLUT_BITMAP_9_BY_15, (char *)"Black -> Wall", 460, 95);
-    f(GLUT_BITMAP_9_BY_15, (char *)"Pink -> Start", 460, 115);
-    f(GLUT_BITMAP_9_BY_15, (char *)"Blue -> End", 460, 135);
-    f(GLUT_BITMAP_9_BY_15, (char *)"Red -> Visted", 460, 155);
-    f(GLUT_BITMAP_9_BY_15, (char *)"Green-> Waiting", 460, 175);
-    f(GLUT_BITMAP_9_BY_15, (char *)"    for Visting", 460, 195);
-    f(GLUT_BITMAP_9_BY_15, (char *)"Yellow -> Path", 460, 215);
+    f(GLUT_BITMAP_9_BY_15, (char *)"white -> Nodes", 460, 80);
+    f(GLUT_BITMAP_9_BY_15, (char *)"Black -> Wall", 460, 100);
+    f(GLUT_BITMAP_9_BY_15, (char *)"Pink -> Start", 460, 120);
+    f(GLUT_BITMAP_9_BY_15, (char *)"Blue -> End", 460, 140);
+    f(GLUT_BITMAP_9_BY_15, (char *)"Red -> Visted", 460, 160);
+    f(GLUT_BITMAP_9_BY_15, (char *)"Green-> Waiting", 460, 180);
+    f(GLUT_BITMAP_9_BY_15, (char *)"    for Visting", 460, 200);
+    f(GLUT_BITMAP_9_BY_15, (char *)"Yellow -> Path", 460, 220);
 
 }

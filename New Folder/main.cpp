@@ -112,6 +112,10 @@ void MouseButton(int button, int state, int x, int y)
         {
             b3.togglestate();
             randWall();
+            randWall();
+            randWall();
+            randWall();
+            randWall();
         }
         if (b4.insidebutton(x, y))
         {
