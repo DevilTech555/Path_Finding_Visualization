@@ -12,10 +12,10 @@ button b2((char *)"Reset", 475, 367, 100, 30);
 button b3((char *)"Random Wall", 475, 327, 100, 30);
 button b4((char *)"Diagonal", 475, 287, 100, 30);
 
-label l1((char*)"Reset",340,460,100,30,1);
-label l2((char*)"Diagonal",230,460,100,30,3);
-label l3((char*)"NO Path",120,460,100,30,1);
-label l4((char*)"FOUND",10,460,100,30,2);
+label l1((char *)"Reset", 340, 460, 100, 30, 1);
+label l2((char *)"Diagonal", 230, 460, 100, 30, 3);
+label l3((char *)"NO Path", 120, 460, 100, 30, 1);
+label l4((char *)"FOUND", 10, 460, 100, 30, 2);
 
 int cs = 0;
 int ce = 0;
@@ -23,7 +23,7 @@ int cw = 0;
 
 void init()
 {
-    glClearColor(8.0/255.0f,0.0/255.0f,15.0/255.0f, 0.0);
+    glClearColor(8.0 / 255.0f, 0.0 / 255.0f, 15.0 / 255.0f, 0.0);
     first_fun();
 }
 
@@ -55,10 +55,8 @@ void display()
 
 void reshape(int x, int y)
 {
-    // X = x;
-    // Y = y;
     glViewport(0, 0, (GLsizei)x, (GLsizei)y);
-    glutReshapeWindow(X,Y);
+    glutReshapeWindow(X, Y);
 }
 
 void MouseButton(int button, int state, int x, int y)
@@ -81,14 +79,17 @@ void MouseButton(int button, int state, int x, int y)
         {
             b4.togglestate();
         }
-        if(cs == 1){
-            selGS(x,y);
+        if (cs == 1)
+        {
+            selGS(x, y);
         }
-        if(ce == 1){
-            selGE(x,y);
+        if (ce == 1)
+        {
+            selGE(x, y);
         }
-        if(cw == 1){
-            selGW(x,y);
+        if (cw == 1)
+        {
+            selGW(x, y);
         }
     }
     if (button == GLUT_LEFT_BUTTON && state == GLUT_UP)
@@ -98,7 +99,6 @@ void MouseButton(int button, int state, int x, int y)
             b1.togglestate();
             if (start != 1)
                 start = 1;
-
         }
         if (b2.insidebutton(x, y))
         {
@@ -133,28 +133,33 @@ void MouseButton(int button, int state, int x, int y)
 
 void keyPress(unsigned char key, int xmouse, int ymouse)
 {
-    if(key == 's'){
+    if (key == 's')
+    {
         cs = 1;
     }
-    if(key == 'e'){
+    if (key == 'e')
+    {
         ce = 1;
     }
-    if(key == 'w'){
+    if (key == 'w')
+    {
         cw = 1;
     }
     glutPostRedisplay(); //request display() call ASAP
 }
 
-
 void keyUp(unsigned char key, int xmouse, int ymouse)
 {
-    if(key == 's'){
+    if (key == 's')
+    {
         cs = 0;
     }
-    if(key == 'e'){
+    if (key == 'e')
+    {
         ce = 0;
     }
-    if(key == 'w'){
+    if (key == 'w')
+    {
         cw = 0;
     }
     glutPostRedisplay(); //request display() call ASAP
@@ -163,7 +168,7 @@ void keyUp(unsigned char key, int xmouse, int ymouse)
 int main(int argc, char **argv)
 {
     glutInit(&argc, argv);
-    glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE );
+    glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE);
     glutInitWindowPosition(0, 0);
     glutInitWindowSize(X, Y);
     glutCreateWindow("Path Finding Algorithms Visualization");

@@ -2,7 +2,7 @@
 #include "button.h"
 
 void button::draw()
-{	
+{
     if (state != 0)
         glColor3f(60.0f / 255.0f, 14.0f / 255.0f, 102.0f / 255.0f);
     else
@@ -13,7 +13,7 @@ void button::draw()
     glVertex2i(X + W, Y + H);
     glVertex2i(X + W, Y);
     glEnd();
-    glColor3f(171.0f / 255.0f,32.0f / 255.0f,253.0f / 255.0f);
+    glColor3f(171.0f / 255.0f, 32.0f / 255.0f, 253.0f / 255.0f);
     glLineWidth(1);
     glBegin(GL_LINE_LOOP);
     glVertex2i(X, Y);
@@ -21,10 +21,10 @@ void button::draw()
     glVertex2i(X + W, Y + H);
     glVertex2i(X + W, Y);
     glEnd();
-    int fontx = X + (W- glutBitmapLength(GLUT_BITMAP_8_BY_13,(const unsigned char *)text)) / 2 ;
-	int fonty = Y + (H+10)/2;
-    glColor3f(1,1,1);
-	Font(GLUT_BITMAP_8_BY_13,text,fontx,fonty);
+    int fontx = X + (W - glutBitmapLength(GLUT_BITMAP_8_BY_13, (const unsigned char *)text)) / 2;
+    int fonty = Y + (H + 10) / 2;
+    glColor3f(1, 1, 1);
+    Font(GLUT_BITMAP_8_BY_13, text, fontx, fonty);
 }
 
 void button::togglestate()
@@ -39,12 +39,12 @@ int button::insidebutton(int x, int y)
         return 0;
 }
 
-void Font(void *font,char *text,int x,int y)
+void Font(void *font, char *text, int x, int y)
 {
-	glRasterPos2i(x, y);
-	while( *text != '\0' )
-	{
-		glutBitmapCharacter( font, *text );
-		++text;
-	}
+    glRasterPos2i(x, y);
+    while (*text != '\0')
+    {
+        glutBitmapCharacter(font, *text);
+        ++text;
+    }
 }

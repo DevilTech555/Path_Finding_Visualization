@@ -8,9 +8,9 @@ void first_fun();
 void a_st();
 void Grid();
 void resetG();
-void selGS(int,int);
-void selGE(int,int);
-void selGW(int,int);
+void selGS(int, int);
+void selGE(int, int);
+void selGW(int, int);
 void selGD();
 void randWall();
 
