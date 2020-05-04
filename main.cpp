@@ -20,6 +20,7 @@ label l4((char *)"FOUND", 10, 460, 100, 30, 2);
 int cs = 0;
 int ce = 0;
 int cw = 0;
+int cr = 0;
 
 void init()
 {
@@ -57,6 +58,19 @@ void reshape(int x, int y)
 {
     glViewport(0, 0, (GLsizei)x, (GLsizei)y);
     glutReshapeWindow(X, Y);
+}
+
+void MouseMotion(int x, int y)
+{
+    if (cw == 1)
+    {
+        selGWN(x, y);
+    }
+    if (cr == 1)
+    {
+        selGN(x, y);
+    }
+    glutPostRedisplay();
 }
 
 void MouseButton(int button, int state, int x, int y)
@@ -145,6 +159,10 @@ void keyPress(unsigned char key, int xmouse, int ymouse)
     {
         cw = 1;
     }
+    if (key == 'r')
+    {
+        cr = 1;
+    }
     glutPostRedisplay(); //request display() call ASAP
 }
 
@@ -162,6 +180,10 @@ void keyUp(unsigned char key, int xmouse, int ymouse)
     {
         cw = 0;
     }
+    if (key == 'r')
+    {
+        cr = 0;
+    }
     glutPostRedisplay(); //request display() call ASAP
 }
 
@@ -177,6 +199,7 @@ int main(int argc, char **argv)
     glutMouseFunc(MouseButton);
     glutKeyboardFunc(keyPress);
     glutKeyboardUpFunc(keyUp);
+    glutMotionFunc(MouseMotion);
     init();
     glutMainLoop();
     return 0;

@@ -486,6 +486,34 @@ void selGW(int x, int y)
     }
 }
 
+void selGWN(int x, int y)
+{
+    for (int i = 0; i < cols; i++)
+    {
+        for (int j = 0; j < rows; j++)
+        {
+            if (x > nodes[i][j].x && x < nodes[i][j].x + wX && y > nodes[i][j].y && y < nodes[i][j].y + wY)
+            {
+                nodes[i][j].wall = true;
+            }
+        }
+    }
+}
+
+void selGN(int x, int y)
+{
+    for (int i = 0; i < cols; i++)
+    {
+        for (int j = 0; j < rows; j++)
+        {
+            if (x > nodes[i][j].x && x < nodes[i][j].x + wX && y > nodes[i][j].y && y < nodes[i][j].y + wY)
+            {
+                nodes[i][j].wall = false;
+            }
+        }
+    }
+}
+
 void clearNeb()
 {
     for (int i = 0; i < cols; i++)

@@ -11,6 +11,8 @@ void resetG();
 void selGS(int, int);
 void selGE(int, int);
 void selGW(int, int);
+void selGWN(int, int);
+void selGN(int, int);
 void selGD();
 void randWall();
 
